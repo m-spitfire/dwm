@@ -74,6 +74,8 @@ static const char *termcmd[]  = { "st", NULL };
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
+#include "mpdcontrol.c"
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
@@ -115,6 +117,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_BackSpace, quit,        {0} },
+	{ MODKEY,                       XK_comma,     mpdchange,   {.i = -1} },
+	{ MODKEY,                       XK_period,    mpdchange,   {.i = +1} },
+	{ MODKEY|ControlMask,           XK_p,         mpdcontrol,  {0} },
 };
 
 /* button definitions */
