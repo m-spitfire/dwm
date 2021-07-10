@@ -6,7 +6,6 @@ include config.mk
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
 
-all: options dwm
 
 options:
 	@echo dwm build options:
@@ -14,6 +13,8 @@ options:
 	@echo "LDFLAGS  = ${LDFLAGS}"
 	@echo "CC       = ${CC}"
 
+output: ${OBJ}
+	${CC} -o dwm ${OBJ} ${LDFLAGS}
 .c.o:
 	${CC} -c ${CFLAGS} $<
 
@@ -22,8 +23,6 @@ ${OBJ}: config.h config.mk mpdcontrol.c
 config.h:
 	cp config.def.h $@
 
-dwm: ${OBJ}
-	${CC} -o $@ ${OBJ} ${LDFLAGS}
 
 clean:
 	rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
@@ -36,7 +35,7 @@ dist: clean
 	gzip dwm-${VERSION}.tar
 	rm -rf dwm-${VERSION}
 
-install: all
+install: clean output
 	mkdir -p ${DESTDIR}${PREFIX}/bin
 	cp -f dwm ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
@@ -51,4 +50,4 @@ uninstall:
 		${DESTDIR}${MANPREFIX}/bin/dwmswallow\
 		${DESTDIR}${MANPREFIX}/man1/dwm.1
 
-.PHONY: all options clean dist install uninstall
+.PHONY: clean install uninstall
