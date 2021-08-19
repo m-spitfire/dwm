@@ -1,5 +1,3 @@
-/* Key binding functions */
-static void togglegaps(const Arg *arg);
 /* Layouts (delete the ones you do not need) */
 static void tile(Monitor *m);
 /* Internals */
