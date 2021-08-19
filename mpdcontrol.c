@@ -8,6 +8,10 @@
 #define MPDHOST "localhost"
 #define MPDPORT 6600
 
+void signal_dwmblocks() {
+	system("pkill -x -RTMIN+4 dwmblocks");
+}
+
 struct mpd_connection *get_conn(){
     struct mpd_connection *conn;
 
@@ -40,6 +44,7 @@ void mpdchange(const Arg *direction){
     }
 
     mpd_connection_free(conn);
+    signal_dwmblocks();
 }
 
 char *get_regerror(int errcode, regex_t *compiled){
@@ -136,5 +141,6 @@ void mpdcontrol(){
         mpd_song_free(song);
         mpd_status_free(status);
         mpd_connection_free(conn);
+	signal_dwmblocks();
     }
 }
